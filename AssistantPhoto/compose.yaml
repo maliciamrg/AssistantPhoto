@@ -1,10 +1,7 @@
 version: '3.8'
 name: assistant-photo
 services:
-  assistant_photo:
-    image: maliciamrg/assistant_photo:1.0
+  whoami:
+    image: traefik/whoami
     ports:
-      - 8090:8090
-    container_name: photoOrganize_Back
-    volumes:
-      - '/Photo/50-Phototheque:/Phototheque'
+      - 8787:80
