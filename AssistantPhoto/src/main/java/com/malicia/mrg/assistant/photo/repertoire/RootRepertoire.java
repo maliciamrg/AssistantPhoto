@@ -1,6 +1,8 @@
 package com.malicia.mrg.assistant.photo.repertoire;
 
 import com.malicia.mrg.assistant.photo.MyConfig;
+import com.malicia.mrg.assistant.photo.parameter.RepertoireOfType;
+import com.malicia.mrg.assistant.photo.parameter.SeanceTypeEnum;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,18 +17,14 @@ public class RootRepertoire {
         this.config = config;
     }
 
-    public List<SeanceRepertoire> getAllSeanceRepertoire(int typeOfSceance) {
+    public List<SeanceRepertoire> getAllSeanceRepertoire(SeanceTypeEnum typeOfSceance) {
 
         List<SeanceRepertoire> expectedList = new ArrayList<>();
 
         // Using enhanced for-each loop
-        for (SeanceRepertoire seanceRepertoire : config.getSeanceRepertoire()) {
-            if (typeOfSceance == 0) {
-                if (seanceRepertoire.getNomunique().contentEquals("AllIn")) {
-                    expectedList.add(seanceRepertoire);
-                }
-            } else {
-                expectedList.add(seanceRepertoire);
+        for (RepertoireOfType repertoireOfType : config.getRepertoireOfType()) {
+            if (repertoireOfType.getSeanceType() == typeOfSceance) {
+                expectedList.addAll(repertoireOfType.getRepertoire());
             }
         }
         return expectedList;
