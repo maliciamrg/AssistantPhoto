@@ -1,6 +1,5 @@
 package com.malicia.mrg.assistant.photo;
 
-import com.malicia.mrg.assistant.photo.AppProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

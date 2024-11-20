@@ -12,6 +12,8 @@ import java.util.List;
 public class MyConfig {
 
     private String name;
+    private String rootPath;
+    private List<String> fileExtensionsToWorkWith;
     private List<SeanceType> seanceType;
     private List<RepertoireOfType> repertoireOfType;
 
@@ -38,5 +40,21 @@ public class MyConfig {
 
     public void setRepertoireOfType(List<RepertoireOfType> repertoireOfType) {
         this.repertoireOfType = repertoireOfType;
+    }
+
+    public String getRootPath() {
+        return rootPath;
+    }
+
+    public void setRootPath(String rootPath) {
+        this.rootPath = rootPath;
+    }
+
+    public List<String> getFileExtensionsToWorkWith() {
+        return fileExtensionsToWorkWith;
+    }
+
+    public void setFileExtensionsToWorkWith(List<String> fileExtensionsToWorkWith) {
+        this.fileExtensionsToWorkWith = fileExtensionsToWorkWith;
     }
 }
