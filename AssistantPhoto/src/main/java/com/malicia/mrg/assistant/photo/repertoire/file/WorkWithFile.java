@@ -64,7 +64,7 @@ public class WorkWithFile {
             photo.setCreatedDate(getFileCreatedDate(path));
 
             // Try to extract EXIF date (only if the file is an image)
-            if (extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")) {
+            if (extension.equalsIgnoreCase("ARW") || extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")) {
                 photo.setExifDate(getExifDate(path));
             }
 
@@ -106,7 +106,7 @@ public class WorkWithFile {
 
             if (directory != null) {
                 // Access EXIF DateTimeOriginal tag directly (tag ID 0x9003)
-                String exifDate = directory.getString(ExifIFD0Directory.TAG_DATETIME_ORIGINAL);
+                String exifDate = directory.getString(ExifIFD0Directory.TAG_DATETIME);
 
                 if (exifDate != null) {
                     return exifDate; // Return the EXIF datetime

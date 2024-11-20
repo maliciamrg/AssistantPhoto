@@ -78,7 +78,7 @@ public class RootRepertoireTest {
         for (Photo photo : allPhotoFromSeanceRepertoire) {
             System.out.println(photo);
         }
-        assertEquals(6, allPhotoFromSeanceRepertoire.size());
+        assertEquals(10, allPhotoFromSeanceRepertoire.size());
     }
 
     // recupere un list de photo depuis un repertoire
