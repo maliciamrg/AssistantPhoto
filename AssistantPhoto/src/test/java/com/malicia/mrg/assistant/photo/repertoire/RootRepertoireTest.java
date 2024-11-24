@@ -63,7 +63,7 @@ public class RootRepertoireTest {
             System.out.println(seanceRepertoire);
         }
         assertEquals(1, allSeanceRepertoire.size());
-        assertEquals("00-CheckIn", allSeanceRepertoire.get(0).getPath());
+        assertEquals("10-Assistant_work", allSeanceRepertoire.get(0).getPath());
     }
 
     // recupere un list de photo depuis un repertoire
