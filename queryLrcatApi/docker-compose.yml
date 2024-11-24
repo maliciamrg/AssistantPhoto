@@ -1,9 +1,0 @@
-version: '2.2'
-services:
-    queryLrcatApi:
-        image: maliciamrg/querylrcatapi:0.0.1-SNAPSHOT
-        ports:
-            - 8091:8091
-        container_name: queryLrcatApi
-        volumes:
-            - '/Photo/lrcat:/Lrcat'

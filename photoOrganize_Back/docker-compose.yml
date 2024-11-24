@@ -1,9 +1,0 @@
-version: '2.2'
-services:
-    photoOrganize_Back:
-        image: maliciamrg/photoorganize_back:1.0
-        ports:
-            - 8090:8090
-        container_name: photoOrganize_Back
-        volumes:
-            - '/Photo/50-Phototheque:/Phototheque'

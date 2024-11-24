@@ -1,19 +1,33 @@
-/.idea/
-/legacy-photoOrganize.iml
-/legacy-photoOrganize/target/
-/logs/
-/out/artifacts/photoOrganize_jar/
-/photoOrganize_Back/photoOrganize-application.iml
-/photoOrganize_Back/photoOrganize-application/target/
-/photoOrganize_Back/photoOrganize-domain.iml
-/photoOrganize_Back/photoOrganize-domain/target/
-/photoOrganize_Back/photoOrganize-infrastructure.iml
-/photoOrganize_Back/photoOrganize-infrastructure/target/
-/photoOrganize_Back/photoOrganize-service.iml
-/photoOrganize_Back/photoOrganize-service/target/
-/photoOrganize_Back/photoOrganize.iml
-/photoOrganize_Back/target/
-/*.iml
-/photoOrganize_Back/photoOrganize-infrastructure/src/test/ressources/database/test.lrcat-data/
-/photoOrganize_Back/photoOrganize-infrastructure/src/test/ressources/database/test Helper.lrdata/
-/photoOrganize_Back/photoOrganize-infrastructure/src/test/ressources/database/test Previews.lrdata/
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/

@@ -1,22 +1,15 @@
 version: '3.8'
-name: photoorganize
+name: assistantphoto
 services:
-    queryLrcatApi:
-        image: maliciamrg/querylrcatapi:0.0.1-SNAPSHOT
-        ports:
-            - 8091:8091
-        container_name: queryLrcatApi
-        volumes:
-            - '/Photo/lrcat:/Lrcat'
-    photoOrganize_Front:
-        image: maliciamrg/photoorganize_front:0.1.0
-        ports:
-            - 3030:3000
-        container_name: photoOrganize_Front
-    photoOrganize_Back:
-        image: maliciamrg/photoorganize_back:1.0
+    assistantPhoto:
+        image: maliciamrg/assistantphoto:0.0.1-SNAPSHOT
         ports:
             - 8090:8090
-        container_name: photoOrganize_Back
+        container_name: assistantPhoto
         volumes:
+            - '/Photo/lrcat:/Lrcat'
             - '/Photo/50-Phototheque:/Phototheque'
+    whoami:
+        image: traefik/whoami
+        ports:
+            - 8787:80
