@@ -1,0 +1,7 @@
+version: '3.8'
+name: assistantphoto
+services:
+    whoami:
+        image: traefik/whoami
+        ports:
+            - 8787:80
