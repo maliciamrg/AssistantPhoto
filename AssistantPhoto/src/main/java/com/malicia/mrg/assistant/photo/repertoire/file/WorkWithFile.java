@@ -4,6 +4,8 @@ import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.Tag;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.malicia.mrg.assistant.photo.repertoire.Photo;
 
 import java.io.File;
@@ -117,6 +119,20 @@ public class WorkWithFile {
             e.printStackTrace();
         }
         return "Unknown";
+    }
+
+    public static void putIntoJsonFile(List<Photo> expectedList, String jsonDest) {
+        // Create an ObjectMapper instance
+        ObjectMapper objectMapper = new ObjectMapper();
+        // Enable pretty print
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        // Write the object to a file (output.json)
+        File file = new File(jsonDest);
+        try {
+            objectMapper.writeValue(file, expectedList);  // This writes the JSON to the file
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 
