@@ -59,5 +59,6 @@ public class SeanceType {
     public void setRapprochementNewOk(boolean rapprochementNewOk) {
         this.rapprochementNewOk = rapprochementNewOk;
     }
+
 }
 

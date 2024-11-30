@@ -196,10 +196,10 @@ public class RootRepertoireTest {
 
         //when
         //todo
-        List<Photo> repGroupOfPhotoFrom = rootRep.getGroupOfPhotoFrom(allPhotoFromSeanceRepertoireFromFile);
+        List<List<Photo>> repGroupOfPhotoFrom = rootRep.getGroupOfPhotoFrom(allPhotoFromSeanceRepertoireFromFile);
 
         //then
         System.out.println(" --> " + allPhotoFromSeanceRepertoireFromFile.size() + " == " + repGroupOfPhotoFrom.size() + " <-- ");
-        assertEquals(allPhotoFromSeanceRepertoireFromFile.size(), repGroupOfPhotoFrom.size());
+        assertEquals(145, repGroupOfPhotoFrom.size());
     }
 }

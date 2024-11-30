@@ -11,7 +11,11 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -98,10 +102,92 @@ public class RootRepertoire {
         return allPhotoFromSeanceRepertoireFromFile;
     }
 
-    public List<Photo> getGroupOfPhotoFrom(List<Photo> allPhotoFromSeanceRepertoireFromFile) {
-        //todo
-        return allPhotoFromSeanceRepertoireFromFile;
+    public List<List<Photo>> getGroupOfPhotoFrom(List<Photo> allPhotos) {
+        List<List<Photo>> groupedPhotos = new ArrayList<>();
+
+        // Sort photos based on exifDate (ascending), using fake LocalDateTime for invalid dates
+        allPhotos.sort((p1, p2) -> {
+            LocalDateTime p1Date = parseDate(p1.getExifDate());
+            LocalDateTime p2Date = parseDate(p2.getExifDate());
+            return p1Date.compareTo(p2Date);
+        });
+
+        List<Photo> currentGroup = new ArrayList<>();
+        List<Photo> nullExifGroup = new ArrayList<>(); // Separate group for photos with null or invalid exifDate
+
+        for (Photo photo : allPhotos) {
+            if (photo.getExifDate() == null || photo.getExifDate().equals("Unknown")) {
+                nullExifGroup.add(photo); // Add to separate group for null or invalid exifDate
+                continue; // Skip the rest of the loop for invalid exifDate photos
+            }
+
+            boolean addedToGroup = false;
+            LocalDateTime photoExifDate = parseDate(photo.getExifDate());
+
+            // Check if the photo can be added to the current group
+            for (Photo groupPhoto : currentGroup) {
+                LocalDateTime groupExifDate = parseDate(groupPhoto.getExifDate());
+                // Calculate the difference in minutes
+                long diffInMinutes = Duration.between(groupExifDate, photoExifDate).toMinutes();
+
+                // Check if the difference is within 10 minutes
+                if (Math.abs(diffInMinutes) <= config.getGroupPhoto().getEcartEnMinutes()) {
+                    currentGroup.add(photo);
+                    addedToGroup = true;
+                    break;
+                }
+            }
+
+            // If not added to any group, start a new group
+            if (!addedToGroup) {
+                if (!currentGroup.isEmpty()) {
+                    groupedPhotos.add(currentGroup); // Save the current group
+                }
+                currentGroup = new ArrayList<>();
+                currentGroup.add(photo); // Start a new group with the current photo
+            }
+        }
+
+        // Add the last group if there are any
+        if (!currentGroup.isEmpty()) {
+            groupedPhotos.add(currentGroup);
+        }
+
+        // Now group all groups with less than 5 photos into a big group
+        List<Photo> bigGroup = new ArrayList<>();
+        Iterator<List<Photo>> iterator = groupedPhotos.iterator();
+
+        while (iterator.hasNext()) {
+            List<Photo> group = iterator.next();
+            if (group.size() < config.getGroupPhoto().getPhotoMin()) {
+                bigGroup.addAll(group); // Add small group to the big group
+                iterator.remove(); // Remove the small group from the list
+            }
+        }
+
+        // If there are any small groups, add the big group to the result
+        if (!bigGroup.isEmpty()) {
+            groupedPhotos.add(bigGroup);
+        }
+        // Add null or invalid exifDate group to the result if it has any photos
+        if (!nullExifGroup.isEmpty()) {
+            groupedPhotos.add(nullExifGroup);
+        }
+
+        return groupedPhotos;
     }
+
+    // Method to parse exifDate (example format: "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime parseDate(String exifDate) {
+        // If the exifDate is invalid, return null
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss");
+        try {
+            return LocalDateTime.parse(exifDate, formatter);
+        } catch (Exception e) {
+            return LocalDateTime.MIN;
+        }
+    }
+
 }
 
 class CustomException extends Exception {

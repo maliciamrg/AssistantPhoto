@@ -27,6 +27,9 @@ assistant:
     - bmp
     - gif
     - tiff_original
+  groupPhoto:
+    ecartEnMinutes: 20
+    photoMin: 5
   seanceType:
     - nom: all_in
     - nom: Assistant_Work

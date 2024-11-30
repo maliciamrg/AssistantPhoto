@@ -1,5 +1,6 @@
 package com.malicia.mrg.assistant.photo;
 
+import com.malicia.mrg.assistant.photo.parameter.GroupPhoto;
 import com.malicia.mrg.assistant.photo.parameter.RepertoireOfType;
 import com.malicia.mrg.assistant.photo.parameter.SeanceType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -14,6 +15,7 @@ public class MyConfig {
     private String name;
     private String rootPath;
     private List<String> fileExtensionsToWorkWith;
+    private GroupPhoto groupPhoto;
     private List<SeanceType> seanceType;
     private List<RepertoireOfType> repertoireOfType;
 
@@ -56,5 +58,13 @@ public class MyConfig {
 
     public void setFileExtensionsToWorkWith(List<String> fileExtensionsToWorkWith) {
         this.fileExtensionsToWorkWith = fileExtensionsToWorkWith;
+    }
+
+    public GroupPhoto getGroupPhoto() {
+        return groupPhoto;
+    }
+
+    public void setGroupPhoto(GroupPhoto groupPhoto) {
+        this.groupPhoto = groupPhoto;
     }
 }
