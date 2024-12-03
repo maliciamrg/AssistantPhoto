@@ -102,8 +102,8 @@ public class RootRepertoire {
         return allPhotoFromSeanceRepertoireFromFile;
     }
 
-    public List<List<Photo>> getGroupOfPhotoFrom(List<Photo> allPhotos) {
-        List<List<Photo>> groupedPhotos = new ArrayList<>();
+    public List<GroupOfPhotos> getGroupOfPhotoFrom(List<Photo> allPhotos) {
+        List<GroupOfPhotos> groupedPhotos = new ArrayList<>();
 
         // Sort photos based on exifDate (ascending), using fake LocalDateTime for invalid dates
         allPhotos.sort((p1, p2) -> {
@@ -112,8 +112,8 @@ public class RootRepertoire {
             return p1Date.compareTo(p2Date);
         });
 
-        List<Photo> currentGroup = new ArrayList<>();
-        List<Photo> nullExifGroup = new ArrayList<>(); // Separate group for photos with null or invalid exifDate
+        GroupOfPhotos currentGroup = new GroupOfPhotos();
+        GroupOfPhotos nullExifGroup = new GroupOfPhotos(); // Separate group for photos with null or invalid exifDate
 
         for (Photo photo : allPhotos) {
             if (photo.getExifDate() == null || photo.getExifDate().equals("Unknown")) {
@@ -143,7 +143,7 @@ public class RootRepertoire {
                 if (!currentGroup.isEmpty()) {
                     groupedPhotos.add(currentGroup); // Save the current group
                 }
-                currentGroup = new ArrayList<>();
+                currentGroup = new GroupOfPhotos();
                 currentGroup.add(photo); // Start a new group with the current photo
             }
         }
@@ -154,11 +154,11 @@ public class RootRepertoire {
         }
 
         // Now group all groups with less than 5 photos into a big group
-        List<Photo> bigGroup = new ArrayList<>();
-        Iterator<List<Photo>> iterator = groupedPhotos.iterator();
+        GroupOfPhotos bigGroup = new GroupOfPhotos();
+        Iterator<GroupOfPhotos> iterator = groupedPhotos.iterator();
 
         while (iterator.hasNext()) {
-            List<Photo> group = iterator.next();
+            GroupOfPhotos group = iterator.next();
             if (group.size() < config.getGroupPhoto().getPhotoMin()) {
                 bigGroup.addAll(group); // Add small group to the big group
                 iterator.remove(); // Remove the small group from the list

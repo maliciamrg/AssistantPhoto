@@ -195,11 +195,17 @@ public class RootRepertoireTest {
         }
 
         //when
-        //todo
-        List<List<Photo>> repGroupOfPhotoFrom = rootRep.getGroupOfPhotoFrom(allPhotoFromSeanceRepertoireFromFile);
+        List<GroupOfPhotos> repGroupOfPhotoFrom = rootRep.getGroupOfPhotoFrom(allPhotoFromSeanceRepertoireFromFile);
 
         //then
         System.out.println(" --> " + allPhotoFromSeanceRepertoireFromFile.size() + " == " + repGroupOfPhotoFrom.size() + " <-- ");
         assertEquals(145, repGroupOfPhotoFrom.size());
+        assertEquals(5, repGroupOfPhotoFrom.get(0).size());
+        assertEquals(8, repGroupOfPhotoFrom.get(1).size());
+        assertEquals(26, repGroupOfPhotoFrom.get(2).size());
+        System.out.println(repGroupOfPhotoFrom.get(2).toString());
+        assertEquals(13, repGroupOfPhotoFrom.get(3).size());
+        assertEquals(12, repGroupOfPhotoFrom.get(4).size());
+        assertEquals(6161, repGroupOfPhotoFrom.get(repGroupOfPhotoFrom.size()-1).size());
     }
 }
