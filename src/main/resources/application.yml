@@ -1,6 +1,7 @@
 application:
     version: '@project.version@'
 assistant:
+  dry-run: true
   name: assistant
   seanceType:
     - nom: all_in

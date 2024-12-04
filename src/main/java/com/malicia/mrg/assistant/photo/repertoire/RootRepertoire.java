@@ -17,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class RootRepertoire {
@@ -26,6 +27,28 @@ public class RootRepertoire {
     public RootRepertoire(MyConfig config) {
         this.config = config;
         controlConfig(config);
+    }
+
+    public static int moveGroupToAssistantWork(String destinationFolder, GroupOfPhotos groupOfPhotoFrom, boolean dryRun) {
+        AtomicInteger ret = new AtomicInteger();
+        String folderNameDatePart = groupOfPhotoFrom.photos.get(0).getExifDate().split(" ")[0].replace(":", "_");
+        String folderNameNumPart = String.format("%05d", groupOfPhotoFrom.size());
+        String folderWor = folderNameDatePart + "_(" + folderNameNumPart + ")";
+        groupOfPhotoFrom.forEach(photo -> {
+            String src = photo.getPath();
+            String newName = WorkWithFile.sanitizeFileName(photo.getRelativeToPath());
+            String dest = WorkWithFile.getNormalizedPath(destinationFolder + "\\" + folderWor + "\\" + newName);
+            try {
+                if (WorkWithFile.moveFileWithTimestamp(src, dest, dryRun)) {
+                    ret.incrementAndGet();
+                    System.out.println(ret + " : " + src + " ==> " + dest);
+                }
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+        });
+
+        return ret.get();
     }
 
     private void controlConfig(MyConfig config) {
@@ -65,7 +88,7 @@ public class RootRepertoire {
 
         try {
             List<Path> listPath = WorkWithFile.getAllFilesFromFolderAndSubFolderWithType(pathToScan, includeTypeFile);
-            expectedList = WorkWithFile.convertPathsToPhotos(listPath);
+            expectedList = WorkWithFile.convertPathsToPhotos(pathToScan, listPath);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -140,7 +163,7 @@ public class RootRepertoire {
 
             // If not added to any group, start a new group
             if (!addedToGroup) {
-                if (!currentGroup.isEmpty()) {
+                if (!currentGroup.empty()) {
                     groupedPhotos.add(currentGroup); // Save the current group
                 }
                 currentGroup = new GroupOfPhotos();
@@ -149,7 +172,7 @@ public class RootRepertoire {
         }
 
         // Add the last group if there are any
-        if (!currentGroup.isEmpty()) {
+        if (!currentGroup.empty()) {
             groupedPhotos.add(currentGroup);
         }
 
@@ -166,11 +189,11 @@ public class RootRepertoire {
         }
 
         // If there are any small groups, add the big group to the result
-        if (!bigGroup.isEmpty()) {
+        if (!bigGroup.empty()) {
             groupedPhotos.add(bigGroup);
         }
         // Add null or invalid exifDate group to the result if it has any photos
-        if (!nullExifGroup.isEmpty()) {
+        if (!nullExifGroup.empty()) {
             groupedPhotos.add(nullExifGroup);
         }
 
@@ -187,7 +210,6 @@ public class RootRepertoire {
             return LocalDateTime.MIN;
         }
     }
-
 }
 
 class CustomException extends Exception {

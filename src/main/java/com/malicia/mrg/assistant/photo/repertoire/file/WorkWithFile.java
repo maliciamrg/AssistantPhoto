@@ -3,10 +3,11 @@ package com.malicia.mrg.assistant.photo.repertoire.file;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
-import com.drew.metadata.Tag;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.malicia.mrg.assistant.photo.repertoire.GroupOfPhotos;
 import com.malicia.mrg.assistant.photo.repertoire.Photo;
+import com.malicia.mrg.assistant.photo.repertoire.SeanceRepertoire;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,13 +49,15 @@ public class WorkWithFile {
         return matchingFiles;
     }
 
-    public static List<Photo> convertPathsToPhotos(List<Path> paths) throws IOException {
+    public static List<Photo> convertPathsToPhotos(String pathToScan, List<Path> paths) throws IOException {
         List<Photo> photos = new ArrayList<>();
 
         for (Path path : paths) {
             // Create a new Photo object
             Photo photo = new Photo();
             photo.setPath(path.toString());
+
+            photo.setRelativeToPath(getNormalizedPath(path.toString()).replace(getNormalizedPath(pathToScan),""));
 
             // Extract filename and extension
             String filename = path.getFileName().toString();
@@ -74,6 +77,27 @@ public class WorkWithFile {
         }
 
         return photos;
+    }
+
+    public static String getNormalizedPath(String pathToScan) {
+        Path pathScan = Paths.get(pathToScan);
+        Path normalizedPath = pathScan.normalize();
+        return normalizedPath.toString();
+    }
+
+    public static String sanitizeFileName(String input) {
+        // Replace invalid characters for Windows and Unix-based systems
+        String sanitized = input.replaceAll("[\\\\/:*?\"<>|]", "_");
+
+        // Remove leading and trailing spaces or dots (optional)
+        sanitized = sanitized.replaceAll("^[\\.\\s]+|[\\.\\s]+$", "");
+
+        // Optionally, you can limit the length of the file name (max 255 chars for most systems)
+        if (sanitized.length() > 255) {
+            sanitized = sanitized.substring(0, 255);
+        }
+
+        return sanitized;
     }
 
     // Helper method to get the file extension
@@ -121,7 +145,7 @@ public class WorkWithFile {
         return "Unknown";
     }
 
-    public static void putIntoJsonFile(List<Photo> expectedList, String jsonDest) {
+    public static void putIntoJsonFile(Object expectedList, String jsonDest) {
         // Create an ObjectMapper instance
         ObjectMapper objectMapper = new ObjectMapper();
         // Enable pretty print
@@ -133,6 +157,33 @@ public class WorkWithFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static boolean moveFileWithTimestamp(String sourcePathStr, String destinationPathStr,boolean dryRun) throws IOException {
+        Path sourcePath = Paths.get(sourcePathStr);
+        Path destinationPath = Paths.get(destinationPathStr);
+
+        // Check if source file exists
+        if (!Files.exists(sourcePath)) {
+            throw new IOException("Source file does not exist: " + sourcePathStr);
+        }
+
+        // Ensure the destination directory exists
+        Files.createDirectories(destinationPath.getParent());
+
+        if (!dryRun) {
+            // Move the file
+            Files.move(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+
+            // Retrieve the last modified time of the source file
+            BasicFileAttributes attrs = Files.readAttributes(sourcePath, BasicFileAttributes.class);
+            FileTime lastModifiedTime = attrs.lastModifiedTime();
+
+            // Set the last modified time of the destination file to match the source file
+            Files.setLastModifiedTime(destinationPath, lastModifiedTime);
+        }
+
+        return true;
     }
 }
 

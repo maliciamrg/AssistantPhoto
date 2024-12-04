@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.malicia.mrg.assistant.photo.MyConfig;
 import com.malicia.mrg.assistant.photo.parameter.SeanceTypeEnum;
+import com.malicia.mrg.assistant.photo.repertoire.file.WorkWithFile;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -132,30 +134,31 @@ public class RootRepertoireTest {
         assertEquals(10, allPhotoFromJson.size());
     }
 
-//    // recupere un list de photo depuis le repertoire reel
-//    @Test
-//    void getAllPhotoFromAllInRealToJson() {
-//        //given
-//        mockConfig.setRootPath("\\\\192.212.5.111\\80-Photo\\");
-//        RootRepertoire rootRep = new RootRepertoire(mockConfig);
-//        String jsonDest = mockConfig.getRootPath() + "/getAllPhotoFromAllInRealToJsonTEST.json";
-//
-//        //when
-//        List<SeanceRepertoire> assistantRepertoire = rootRep.getAllSeanceRepertoire(SeanceTypeEnum.ALL_IN);
-//        List<Photo> allPhotoFromSeanceRepertoire = rootRep.getAllPhotoFromSeanceRepertoireToJson(assistantRepertoire, jsonDest);
-//
-//        //then
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        File file = new File(jsonDest);
-//        List<Photo> allPhotoFromSeanceRepertoireFromFile = new ArrayList<>();
-//        try {
-//            allPhotoFromSeanceRepertoireFromFile = objectMapper.readValue(file, new TypeReference<List<Photo>>() {});
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        System.out.println(" --> " + allPhotoFromSeanceRepertoireFromFile.size() + " == " + allPhotoFromSeanceRepertoire.size() + " <-- ");
-//        assertEquals(allPhotoFromSeanceRepertoireFromFile.size(), allPhotoFromSeanceRepertoire.size());
-//    }
+    // recupere un list de photo depuis le repertoire reel
+    @Disabled
+    @Test
+    void getAllPhotoFromAllInRealToJson() {
+        //given
+        mockConfig.setRootPath("\\\\192.212.5.111\\80-Photo\\");
+        RootRepertoire rootRep = new RootRepertoire(mockConfig);
+        String jsonDest = mockConfig.getRootPath() + "/getAllPhotoFromAllInRealToJsonTEST.json";
+
+        //when
+        List<SeanceRepertoire> assistantRepertoire = rootRep.getAllSeanceRepertoire(SeanceTypeEnum.ALL_IN);
+        List<Photo> allPhotoFromSeanceRepertoire = rootRep.getAllPhotoFromSeanceRepertoireToJson(assistantRepertoire, jsonDest);
+
+        //then
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File(jsonDest);
+        List<Photo> allPhotoFromSeanceRepertoireFromFile = new ArrayList<>();
+        try {
+            allPhotoFromSeanceRepertoireFromFile = objectMapper.readValue(file, new TypeReference<List<Photo>>() {});
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(" --> " + allPhotoFromSeanceRepertoireFromFile.size() + " == " + allPhotoFromSeanceRepertoire.size() + " <-- ");
+        assertEquals(allPhotoFromSeanceRepertoireFromFile.size(), allPhotoFromSeanceRepertoire.size());
+    }
 
     // recupere un list de photo depuis un repertoire
     @Test
@@ -207,5 +210,37 @@ public class RootRepertoireTest {
         assertEquals(13, repGroupOfPhotoFrom.get(3).size());
         assertEquals(12, repGroupOfPhotoFrom.get(4).size());
         assertEquals(6161, repGroupOfPhotoFrom.get(repGroupOfPhotoFrom.size()-1).size());
+
+        //given
+        String jsonDest = mockConfig.getRootPath() + "/getGroupOfPhotoTEST.json";
+        WorkWithFile.putIntoJsonFile(repGroupOfPhotoFrom.get(2), jsonDest);
+
+    }
+
+    // Move Group photo
+    @Test
+    void regroupGroupOfPhotoFromJson() {
+        //given
+        Path rootTest = Paths.get("src", "test", "resources");
+        mockConfig.setRootPath("./" + rootTest.toString() + "/");
+        RootRepertoire rootRep = new RootRepertoire(mockConfig);
+        String jsonSrc = mockConfig.getRootPath() + "/getGroupOfPhotoTEST.json";
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File(jsonSrc);
+        GroupOfPhotos groupOfPhotoFrom = new GroupOfPhotos();
+        try {
+            groupOfPhotoFrom = objectMapper.readValue(file, new TypeReference<GroupOfPhotos>() {});
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        //when
+        List<SeanceRepertoire> allSeanceRepertoire = rootRep.getAllSeanceRepertoire(SeanceTypeEnum.ASSISTANT_WORK);
+        int ret = rootRep.moveGroupToAssistantWork(mockConfig.getRootPath() + allSeanceRepertoire.get(0).getPath(), groupOfPhotoFrom ,mockConfig.getDryRun());
+
+        //then
+        assertEquals(26, groupOfPhotoFrom.size());
+        assertEquals(26, ret);
     }
 }
+

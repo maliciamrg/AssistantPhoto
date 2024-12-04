@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class GroupOfPhotos  implements Iterable<Photo> {
+public class GroupOfPhotos implements Iterable<Photo> {
 
-    List<Photo> photos = new ArrayList();
+    public List<Photo> photos = new ArrayList();
 
     public void add(Photo photo) {
         photos.add(photo);
     }
 
-    public boolean isEmpty() {
-        return photos.size()==0;
+    public boolean empty() {
+        return photos.size() == 0;
     }
 
     @Override

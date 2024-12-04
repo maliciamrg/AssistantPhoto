@@ -12,6 +12,7 @@ import java.util.List;
 @ConfigurationProperties(prefix = "assistant")
 public class MyConfig {
 
+    private boolean dryRun;
     private String name;
     private String rootPath;
     private List<String> fileExtensionsToWorkWith;
@@ -66,5 +67,13 @@ public class MyConfig {
 
     public void setGroupPhoto(GroupPhoto groupPhoto) {
         this.groupPhoto = groupPhoto;
+    }
+
+    public boolean getDryRun() {
+        return dryRun;
+    }
+
+    public void setDryRun(boolean dryRun) {
+        this.dryRun = dryRun;
     }
 }

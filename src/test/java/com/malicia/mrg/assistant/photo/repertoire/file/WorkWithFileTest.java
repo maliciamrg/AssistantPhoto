@@ -1,9 +1,6 @@
 package com.malicia.mrg.assistant.photo.repertoire.file;
 
-import com.malicia.mrg.assistant.photo.parameter.SeanceTypeEnum;
 import com.malicia.mrg.assistant.photo.repertoire.Photo;
-import com.malicia.mrg.assistant.photo.repertoire.RootRepertoire;
-import com.malicia.mrg.assistant.photo.repertoire.SeanceRepertoire;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -26,7 +23,7 @@ class WorkWithFileTest {
 
         //when
         try {
-            expectedList = WorkWithFile.convertPathsToPhotos(rootFilesTest);
+            expectedList = WorkWithFile.convertPathsToPhotos("\\src\\test\\resources\\00-CheckIn\\", rootFilesTest);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

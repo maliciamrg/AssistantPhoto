@@ -2,6 +2,7 @@ package com.malicia.mrg.assistant.photo.repertoire;
 
 public class Photo {
     private String path;
+    private String relativeToPath;
     private String filename;
     private String extension;
     private String createdDate;
@@ -52,10 +53,19 @@ public class Photo {
     public String toString() {
         return "Photo{" +
                 "path='" + path + '\'' +
+                ", relativeToPath='" + relativeToPath + '\'' +
                 ", filename='" + filename + '\'' +
                 ", extension='" + extension + '\'' +
                 ", createdDate='" + createdDate + '\'' +
                 ", exifDate='" + exifDate + '\'' +
                 '}';
+    }
+
+    public void setRelativeToPath(String relativeToPath) {
+        this.relativeToPath = relativeToPath;
+    }
+
+    public String getRelativeToPath() {
+        return relativeToPath;
     }
 }
