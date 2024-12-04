@@ -5,9 +5,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.malicia.mrg.assistant.photo.repertoire.GroupOfPhotos;
 import com.malicia.mrg.assistant.photo.repertoire.Photo;
-import com.malicia.mrg.assistant.photo.repertoire.SeanceRepertoire;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +17,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.drew.metadata.exif.ExifDirectoryBase.TAG_DATETIME;
+
 public class WorkWithFile {
+
+    private WorkWithFile() {
+    }
 
     public static List<Path> getAllFilesFromFolderAndSubFolderWithType(String rootDir, List<String> authorizedExtensions) throws IOException {
         Path rootPath = Paths.get(rootDir);
@@ -57,7 +60,7 @@ public class WorkWithFile {
             Photo photo = new Photo();
             photo.setPath(path.toString());
 
-            photo.setRelativeToPath(getNormalizedPath(path.toString()).replace(getNormalizedPath(pathToScan),""));
+            photo.setRelativeToPath(getNormalizedPath(path.toString()).replace(getNormalizedPath(pathToScan), ""));
 
             // Extract filename and extension
             String filename = path.getFileName().toString();
@@ -90,7 +93,7 @@ public class WorkWithFile {
         String sanitized = input.replaceAll("[\\\\/:*?\"<>|]", "_");
 
         // Remove leading and trailing spaces or dots (optional)
-        sanitized = sanitized.replaceAll("^[\\.\\s]+|[\\.\\s]+$", "");
+        sanitized = sanitized.replaceAll("^[\\.\\s]+$|^[\\.\\s]+$", "");
 
         // Optionally, you can limit the length of the file name (max 255 chars for most systems)
         if (sanitized.length() > 255) {
@@ -132,7 +135,7 @@ public class WorkWithFile {
 
             if (directory != null) {
                 // Access EXIF DateTimeOriginal tag directly (tag ID 0x9003)
-                String exifDate = directory.getString(ExifIFD0Directory.TAG_DATETIME);
+                String exifDate = directory.getString(TAG_DATETIME);
 
                 if (exifDate != null) {
                     return exifDate; // Return the EXIF datetime
@@ -159,7 +162,7 @@ public class WorkWithFile {
         }
     }
 
-    public static boolean moveFileWithTimestamp(String sourcePathStr, String destinationPathStr,boolean dryRun) throws IOException {
+    public static boolean moveFileWithTimestamp(String sourcePathStr, String destinationPathStr, boolean dryRun) throws IOException {
         Path sourcePath = Paths.get(sourcePathStr);
         Path destinationPath = Paths.get(destinationPathStr);
 

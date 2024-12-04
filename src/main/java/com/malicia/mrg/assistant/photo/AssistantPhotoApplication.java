@@ -46,16 +46,21 @@ public class AssistantPhotoApplication {
         }
         final String hosttAddress = InetAddress.getLocalHost().getHostAddress();
         final String ipOutsideDocker = env.getProperty("application.ipWan");
-        logger.info("\n\t---------------------------------------------------------------\n\t"
-                        + "Application '{} ({})' is running!\n\t"
-                        + "Access URLs:\n\t"
-                        + "  Local: \t\t{}://localhost:{}{}\n\t"
-                        + "  External: \t{}://{}:{}{}\n\t"
-                        + "  IpWan: \t\t{}://{}\t (manual)\n\t"
-                        + "Profile(s): \t{}\n\t" + "---------------------------------------------------------------\n\t"
-                        + "Swagger: \t{}://{}:{}{}swagger-ui/index.html\n\t"
-                        + "Swagger IpWan: \t{}://{}/swagger-ui/index.html\n\t",
-                env.getProperty("spring.application.name"), env.getProperty("application.version"), protocol, serverPort, contextPath, protocol, hosttAddress, serverPort, contextPath, protocol, ipOutsideDocker, env.getActiveProfiles(), protocol, hosttAddress, serverPort, contextPath, protocol, ipOutsideDocker);
+        String appName = env.getProperty("spring.application.name");
+        String appVersion = env.getProperty("application.version");
+        logger.info("""
+                ---------------------------------------------------------------
+                Application '{}' ({})' is running!
+                Access URLs:
+                  Local:     {}://localhost:{}{}
+                  External:  {}://{}:{}{}
+                  IpWan:     {}://{} (manual)
+                Profile(s):  {}
+                ---------------------------------------------------------------
+                Swagger:       {}://{}:{}{}swagger-ui/index.html
+                Swagger IpWan: {}://{}/swagger-ui/index.html
+                """,
+                appName, appVersion, protocol, serverPort, contextPath, protocol, hosttAddress, serverPort, contextPath, protocol, ipOutsideDocker, env.getActiveProfiles(), protocol, hosttAddress, serverPort, contextPath, protocol, ipOutsideDocker);
     }
 
     @Bean

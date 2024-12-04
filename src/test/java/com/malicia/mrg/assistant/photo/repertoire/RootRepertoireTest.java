@@ -21,7 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class RootRepertoireTest {
+class RootRepertoireTest {
 
     @Autowired
     private MyConfig mockConfig; // Mocking the MyConfig dependency
@@ -135,7 +135,7 @@ public class RootRepertoireTest {
     }
 
     // recupere un list de photo depuis le repertoire reel
-    @Disabled
+    @Disabled("Not a real test, use to create Json getAllPhotoFromAllInRealToJsonTEST from real data ")
     @Test
     void getAllPhotoFromAllInRealToJson() {
         //given

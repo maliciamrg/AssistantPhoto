@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class  AssistantPhotoApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void contextLoads() { //calls created in advance wait test implementation
 	}
 
 }

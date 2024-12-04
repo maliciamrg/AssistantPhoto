@@ -31,7 +31,7 @@ public class RootRepertoire {
 
     public static int moveGroupToAssistantWork(String destinationFolder, GroupOfPhotos groupOfPhotoFrom, boolean dryRun) {
         AtomicInteger ret = new AtomicInteger();
-        String folderNameDatePart = groupOfPhotoFrom.photos.get(0).getExifDate().split(" ")[0].replace(":", "_");
+        String folderNameDatePart = groupOfPhotoFrom.getPhotos().get(0).getExifDate().split(" ")[0].replace(":", "_");
         String folderNameNumPart = String.format("%05d", groupOfPhotoFrom.size());
         String folderWor = folderNameDatePart + "_(" + folderNameNumPart + ")";
         groupOfPhotoFrom.forEach(photo -> {
@@ -52,9 +52,12 @@ public class RootRepertoire {
     }
 
     private void controlConfig(MyConfig config) {
-        int size = getAllSeanceRepertoire(SeanceTypeEnum.ASSISTANT_WORK).size();
         try {
+            if (config.getRootPath().isEmpty()) {
+                throw new CustomException("Root Path is empty");
+            }
 
+            int size = getAllSeanceRepertoire(SeanceTypeEnum.ASSISTANT_WORK).size();
             if (size > 1) {
                 throw new CustomException("ASSISTANT_WORK has more than one element.");
             }

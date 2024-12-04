@@ -6,7 +6,15 @@ import java.util.List;
 
 public class GroupOfPhotos implements Iterable<Photo> {
 
-    public List<Photo> photos = new ArrayList();
+    private List<Photo> photos = new ArrayList();
+
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
+    }
 
     public void add(Photo photo) {
         photos.add(photo);
