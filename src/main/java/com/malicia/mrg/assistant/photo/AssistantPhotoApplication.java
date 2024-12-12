@@ -52,15 +52,16 @@ public class AssistantPhotoApplication {
                 ---------------------------------------------------------------
                 Application '{}' ({})' is running!
                 Access URLs:
-                  Local:     {}://localhost:{}{}
-                  External:  {}://{}:{}{}
-                  IpWan:     {}://{} (manual)
+                  Local:        {}://localhost:{}{}
+                  LocalIndex:   {}://localhost:{}{}index.html
+                  External:     {}://{}:{}{}
+                  IpWan:        {}://{} (manual)
                 Profile(s):  {}
                 ---------------------------------------------------------------
                 Swagger:       {}://{}:{}{}swagger-ui/index.html
                 Swagger IpWan: {}://{}/swagger-ui/index.html
                 """,
-                appName, appVersion, protocol, serverPort, contextPath, protocol, hosttAddress, serverPort, contextPath, protocol, ipOutsideDocker, env.getActiveProfiles(), protocol, hosttAddress, serverPort, contextPath, protocol, ipOutsideDocker);
+                appName, appVersion, protocol, serverPort, contextPath, protocol, serverPort, contextPath, protocol, hosttAddress, serverPort, contextPath, protocol, ipOutsideDocker, env.getActiveProfiles(), protocol, hosttAddress, serverPort, contextPath, protocol, ipOutsideDocker);
     }
 
     @Bean

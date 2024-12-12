@@ -153,6 +153,49 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+			<!-- Frontend Maven Plugin to build React -->
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.12.0</version>
+				<configuration>
+					<workingDirectory>frontend</workingDirectory>
+					<nodeVersion>v20.16.0</nodeVersion> <!-- Make sure this is compatible with your Node version -->
+					<npmVersion>10.8.2</npmVersion>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>install-node-and-npm</goal>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments> <!-- Specify npm run build -->
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Copy React build to static folder -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/classes/static</outputDirectory>
+							<resources>
+								<resource>
+									<directory>frontend/build</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
