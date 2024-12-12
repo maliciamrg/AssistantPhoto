@@ -1,8 +1,36 @@
 application:
-    version: '@project.version@'
+  version: "@project.version@"
+my:
+  app:
+    name: AssistantPhoto
+    version: "1.0"
 assistant:
-  dry-run: true
+  dryRun: true
   name: assistant
+  rootPath: c:\
+  fileExtensionsToWorkWith:
+    - jpg
+    - tif
+    - tiff
+    - dng
+    - jpeg
+    - arw
+    - mp4
+    - png
+    - mts
+    - mov
+    - avi
+    - m2ts
+    - 3gp
+    - m4v
+    - mpg
+    - psd
+    - bmp
+    - gif
+    - tiff_original
+  groupPhoto:
+    ecartEnMinutes: 20
+    photoMin: 5
   seanceType:
     - nom: all_in
     - nom: Assistant_Work
@@ -53,7 +81,6 @@ assistant:
         - "@00_WHERE@"
         - "@00_WHAT@|@00_WHO@"
       rapprochementNewOk: true
-
   repertoireOfType:
     - seanceType: all_in
       repertoire:
@@ -84,26 +111,26 @@ assistant:
         - path: "50-Phototheque\\#Sauvegarde 999 j"
           description: "Backup photographs"
 info:
-    application:
-        name: ${spring.application.name}
-        version: ${application.version}
+  application:
+    name: ${spring.application.name}
+    version: ${application.version}
 management:
-    endpoints:
-        web:
-            exposure:
-                include: health,info,metrics
-    info:
-        build:
-            enabled: true
-        env:
-            enabled: true
-        git:
-            enabled: true
-            mode: full
-        java:
-            enabled: true
-        os:
-            enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  info:
+    build:
+      enabled: true
+    env:
+      enabled: true
+    git:
+      enabled: true
+      mode: full
+    java:
+      enabled: true
+    os:
+      enabled: true
 spring:
-    application:
-        name: AssistantPhoto
+  application:
+    name: AssistantPhoto
