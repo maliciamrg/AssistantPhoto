@@ -44,7 +44,7 @@ public class AssistantPhotoApplication {
         if (StringUtils.isEmpty(contextPath)) {
             contextPath = "/";
         }
-        final String hosttAddress = InetAddress.getLocalHost().getHostAddress();
+        final String hostAddress = InetAddress.getLocalHost().getHostAddress();
         final String ipOutsideDocker = env.getProperty("application.ipWan");
         String appName = env.getProperty("spring.application.name");
         String appVersion = env.getProperty("application.version");
@@ -61,7 +61,7 @@ public class AssistantPhotoApplication {
                 Swagger:       {}://{}:{}{}swagger-ui/index.html
                 Swagger IpWan: {}://{}/swagger-ui/index.html
                 """,
-                appName, appVersion, protocol, serverPort, contextPath, protocol, serverPort, contextPath, protocol, hosttAddress, serverPort, contextPath, protocol, ipOutsideDocker, env.getActiveProfiles(), protocol, hosttAddress, serverPort, contextPath, protocol, ipOutsideDocker);
+                appName, appVersion, protocol, serverPort, contextPath, protocol, serverPort, contextPath, protocol, hostAddress, serverPort, contextPath, protocol, ipOutsideDocker, env.getActiveProfiles(), protocol, hostAddress, serverPort, contextPath, protocol, ipOutsideDocker);
     }
 
     @Bean

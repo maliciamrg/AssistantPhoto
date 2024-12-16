@@ -1,11 +1,20 @@
 package com.malicia.mrg.assistant.photo.repertoire;
 
 public class Photo {
+    private String thumbnail;
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
     private String path;
     private String relativeToPath;
     private String filename;
     private String extension;
     private String createdDate;
+
     private String exifDate;
 
     // Getters and setters
@@ -61,11 +70,11 @@ public class Photo {
                 '}';
     }
 
-    public void setRelativeToPath(String relativeToPath) {
-        this.relativeToPath = relativeToPath;
-    }
-
     public String getRelativeToPath() {
         return relativeToPath;
+    }
+
+    public void setRelativeToPath(String relativeToPath) {
+        this.relativeToPath = relativeToPath;
     }
 }

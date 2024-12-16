@@ -2,7 +2,7 @@ application:
   version: "@project.version@"
 my:
   app:
-    name: AssistantPhoto
+    name: TestApp
     version: "1.0"
 assistant:
   dryRun: true
@@ -86,6 +86,8 @@ assistant:
       repertoire:
         - path: "00-CheckIn"
           description: "Main check-in folder"
+        - path: "00-CheckIn-2"
+          description: "Backup check-in folder"
     - seanceType: assistant_work
       repertoire:
         - path: "10-Assistant_work"

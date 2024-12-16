@@ -7,6 +7,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.malicia.mrg.assistant.photo.repertoire.Photo;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -14,6 +18,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -74,6 +79,32 @@ public class WorkWithFile {
             // Try to extract EXIF date (only if the file is an image)
             if (extension.equalsIgnoreCase("ARW") || extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")) {
                 photo.setExifDate(getExifDate(path));
+            }
+
+            File imgFile = new File(String.valueOf(path));
+            try {
+                // Load the image file
+                BufferedImage originalImage = ImageIO.read(imgFile);
+
+                if (originalImage != null) {
+                    // Set the dimensions for the thumbnail
+                    int thumbnailWidth = 100; // Set desired thumbnail width
+                    int thumbnailHeight = 100; // Set desired thumbnail height
+
+                    // Create a scaled instance (thumbnail)
+                    Image thumbnail = originalImage.getScaledInstance(thumbnailWidth, thumbnailHeight, Image.SCALE_SMOOTH);
+
+                    // Optionally, you can create a BufferedImage for the thumbnail if you need it in BufferedImage format
+                    BufferedImage bufferedThumbnail = new BufferedImage(thumbnailWidth, thumbnailHeight, BufferedImage.TYPE_INT_ARGB);
+                    bufferedThumbnail.getGraphics().drawImage(thumbnail, 0, 0, null);
+
+                    String base64EncodedThumbnail = encodeImageToBase64(bufferedThumbnail);
+
+                    photo.setThumbnail("data:image/png;base64,"+base64EncodedThumbnail);
+                }
+
+            } catch (IOException e) {
+                System.out.println("Error reading the image file: " + e.getMessage());
             }
 
             photos.add(photo);
@@ -187,6 +218,22 @@ public class WorkWithFile {
         }
 
         return true;
+    }
+
+    // Helper method to encode an image to Base64
+    private static String encodeImageToBase64(BufferedImage image) {
+        try {
+            // Convert BufferedImage to byte array
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ImageIO.write(image, "PNG", byteArrayOutputStream);
+            byte[] imageBytes = byteArrayOutputStream.toByteArray();
+
+            // Encode the byte array to Base64
+            return Base64.getEncoder().encodeToString(imageBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
 
