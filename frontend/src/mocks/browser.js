@@ -1,14 +1,4 @@
-import { setupWorker } from 'msw/browser';
+import { setupWorker } from 'msw/browser'
+import { handlers } from './handlers'
 
-import { handlers } from './handlers';
-
-// Setup browser service worker using the given handlers
-export const worker = setupWorker(...handlers);
-
-export const startMockServiceWorker = () => {
-    worker.start();
-}
-
-export const stopMockServiceWorker = () => {
-    worker.stop();
-}
+export const worker = setupWorker(...handlers)

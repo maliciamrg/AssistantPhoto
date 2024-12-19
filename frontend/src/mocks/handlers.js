@@ -1,13 +1,11 @@
-// src/handlers.js
+// src/mocks/handlers.js
+import { http, HttpResponse } from 'msw'
 
-import {http, HttpResponse} from 'msw';
-
-// Mock a photo API response
 export const handlers = [
     http.get('http://localhost:8080/photos', ({request}) => {
 
-        console.log(url.pathname)
         const url = new URL(request.url)
+        console.log('http://localhost:8080/photos =>' + url.toString())
         const seanceType = url.searchParams.get('seanceType')
         if (seanceType == "ALL_IN") {
 
@@ -23,6 +21,26 @@ export const handlers = [
                     }]
             )
         }
+    }),
+    http.get('localhost', ({request}) => {
+
+        const url = new URL(request.url)
+        console.log('localhost =>' + url.toString())
+    }),
+    http.get('http://localhost', ({request}) => {
+
+        const url = new URL(request.url)
+        console.log('http://localhost =>' + url.toString())
+    }),
+    http.get('http://localhost:3000', ({request}) => {
+
+        const url = new URL(request.url)
+        console.log('http://localhost:3000 =>' + url.toString())
+    }),
+    http.get('http://localhost:8080', ({request}) => {
+
+        const url = new URL(request.url)
+        console.log('http://localhost:8080 =>' + url.toString())
     })
 ];
 
