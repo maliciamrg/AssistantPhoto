@@ -1,0 +1,6 @@
+Canvas in react i want to create a app , on the start up page i need to choice a "seance type" ,
+retreive by a api call , and a "seance repertoire" ,retreive by another api call with the seance type in parameter.
+After validate the choice ,i want a dashboard open and replace the startup page.
+this dashboard have a menu on top with "parametrer" , "action" and "logout"(return to start up page).
+The dashboard will present a carousel of photo retreive from a api call. with a right clik on a photo a menu pop up
+with "flag" ,"unflag" and "star".

@@ -15,8 +15,12 @@ import java.util.List;
 @RestController
 public class PhotoController {
 
-    @Autowired
+    final
     RootRepertoire rootRep;
+
+    public PhotoController(RootRepertoire rootRep) {
+        this.rootRep = rootRep;
+    }
 
     @GetMapping("/photos")
     public ResponseEntity<List<Photo>> index(@RequestParam("seanceType") SeanceTypeEnum seanceType) {

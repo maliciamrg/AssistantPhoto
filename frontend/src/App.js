@@ -1,70 +1,116 @@
-import React, { useEffect, useState } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-// Carousel component to display the images
-function Carousel({ photos }) {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+const App = () => {
+    const [seanceTypes, setSeanceTypes] = useState([]);
+    const [selectedSeanceType, setSelectedSeanceType] = useState('');
+    const [seanceRepertoires, setSeanceRepertoires] = useState([]);
+    const [selectedSeanceRepertoire, setSelectedSeanceRepertoire] = useState('');
+    const [dashboardVisible, setDashboardVisible] = useState(false);
+    const [photos, setPhotos] = useState([]);
 
-  return (
-      <div className="carousel">
-        <Slider {...settings}>
-          {photos.map((photo, index) => (
-              <div key={index}>
-                <img src={photo.thumbnail} alt={`Thumbnail ${index}`} className="carousel-image" />
-              </div>
-          ))}
-        </Slider>
-      </div>
-  );
-}
+    // Fetch seance types on component mount
+    useEffect(() => {
+        axios.get('http://localhost:8080/api/seance-types')
+            .then(response => setSeanceTypes(response.data.map(type => ({
+                id: type.id,
+                name: type.name
+            }))))
+            .catch(error => console.error('Error fetching seance types:', error));
+    }, []);
 
-// Main component to fetch and display photos
-function PhotoCarousel() {
-  const [photos, setPhotos] = useState([]);
-  const [loading, setLoading] = useState(true);
+    // Fetch seance repertoires when a seance type is selected
+    useEffect(() => {
+        if (selectedSeanceType) {
+            axios.get(`http://localhost:8080/api/seance-repertoire?type=${selectedSeanceType}`)
+                .then(response => setSeanceRepertoires(response.data.map(repertoire => ({
+                    id: repertoire.id,
+                    name: repertoire.name
+                }))))
+                .catch(error => console.error('Error fetching seance repertoires:', error));
+        } else {
+            setSeanceRepertoires([]);
+        }
+    }, [selectedSeanceType]);
 
-  useEffect(() => {
-    fetch("http://localhost:8080/photos?seanceType=ALL_IN")  // Replace with your actual API URL
-        .then((response) => response.json())
-        .then(data => {
-            setPhotos(data); // Store the fetched photos data
-            setLoading(false); // Stop loading
-        })
-        .catch((error) => {
-          console.error("Error fetching photos:", error);
-          setLoading(false);
-        });
-  }, []);
+    // Fetch photos for the dashboard
+    useEffect(() => {
+        if (dashboardVisible) {
+            axios.get(`http://localhost:8080/api/photos?type=${selectedSeanceType}&repertoire=${selectedSeanceRepertoire}`)
+                .then(response => setPhotos(response.data))
+                .catch(error => console.error('Error fetching photos:', error));
+        }
+    }, [dashboardVisible, selectedSeanceType, selectedSeanceRepertoire]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+    const handleStart = () => {
+        if (selectedSeanceType && selectedSeanceRepertoire) {
+            setDashboardVisible(true);
+        } else {
+            alert('Please select both a seance type and repertoire.');
+        }
+    };
 
-  return (
-      <div>
-        <h2>Photo Carousel</h2>
-          <div className="carousel-container">
-              <div className="carousel">
-                  {photos.map((photo, index) => (
-                      <img
-                          key={index}
-                          src={photo.thumbnail} // This is the Base64 string
-                          alt={`Thumbnail ${index}`}
-                          width="100" // You can adjust the size of the thumbnail here
-                      />
-                  ))}
-              </div>
-          </div>
-      </div>
-  );
-}
+    const handleLogout = () => {
+        setDashboardVisible(false);
+        setSelectedSeanceType('');
+        setSelectedSeanceRepertoire('');
+    };
 
-export default PhotoCarousel;
+    const handlePhotoAction = (photoId, action) => {
+        console.log(`Photo ID: ${photoId}, Action: ${action}`);
+    };
+
+    return (
+        <div>
+            {dashboardVisible ? (
+                <div>
+                    <header>
+                        <nav>
+                            <button onClick={() => console.log('Parametrer clicked')}>Parametrer</button>
+                            <button onClick={() => console.log('Action clicked')}>Action</button>
+                            <button onClick={handleLogout}>Logout</button>
+                        </nav>
+                    </header>
+                    <main>
+                        <div className="carousel">
+                            {photos.map(photo => (
+                                <div key={photo.id} className="photo-item" onContextMenu={(e) => {
+                                    e.preventDefault();
+                                    const action = prompt('Choose an action: flag, unflag, star');
+                                    if (action) handlePhotoAction(photo.id, action);
+                                }}>
+                                    <img src={photo.url} alt={photo.description} />
+                                </div>
+                            ))}
+                        </div>
+                    </main>
+                </div>
+            ) : (
+                <div>
+                    <h1>Choose Seance</h1>
+                    <div>
+                        <label>Seance Type:</label>
+                        <select value={selectedSeanceType} onChange={(e) => setSelectedSeanceType(e.target.value)}>
+                            <option value="">Select...</option>
+                            {seanceTypes.map(type => (
+                                <option key={type.id} value={type.id}>{type.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Seance Repertoire:</label>
+                        <select value={selectedSeanceRepertoire} onChange={(e) => setSelectedSeanceRepertoire(e.target.value)}>
+                            <option value="">Select...</option>
+                            {seanceRepertoires.map(name => (
+                                <option key={name.id} value={name.id}>{name.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <button onClick={handleStart}>Start</button>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default App;
