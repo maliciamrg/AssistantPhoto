@@ -164,13 +164,31 @@
 					<npmVersion>10.8.2</npmVersion>
 				</configuration>
 				<executions>
+					<!-- Step 1: Install Node and npm -->
 					<execution>
+						<id>install-node-and-npm</id>
 						<goals>
 							<goal>install-node-and-npm</goal>
+						</goals>
+					</execution>
+					<!-- Step 2: Run npm install -->
+					<execution>
+						<id>npm-install</id>
+						<goals>
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>run build</arguments> <!-- Specify npm run build -->
+							<arguments>install</arguments> <!-- Run npm install -->
+						</configuration>
+					</execution>
+					<!-- Step 3: Run npm build -->
+					<execution>
+						<id>npm-build</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments> <!-- Run npm run build -->
 						</configuration>
 					</execution>
 				</executions>
