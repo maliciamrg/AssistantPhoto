@@ -1,5 +1,7 @@
 application:
   version: "@project.version@"
+server:
+  port: 9090
 my:
   app:
     name: AssistantPhoto

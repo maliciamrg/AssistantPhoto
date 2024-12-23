@@ -3,7 +3,7 @@ import {rest} from 'msw';
 
 export const handlers = [
     // Mock the GET request to the specified URL
-    rest.get('http://localhost:8080/photos', (req, res, ctx) => {
+    rest.get('http://localhost:9090/photos', (req, res, ctx) => {
         return res(
             ctx.status(200),
             ctx.json(
@@ -22,7 +22,7 @@ export const handlers = [
 
     // You can also add other API endpoints if needed
     // Example for POST request:
-    // rest.post('http://10.198.150.61:8080', (req, res, ctx) => {
+    // rest.post('http://10.198.150.61:9090', (req, res, ctx) => {
     //   return res(ctx.status(200), ctx.json({ message: 'Created successfully' }));
     // }),
 ];
