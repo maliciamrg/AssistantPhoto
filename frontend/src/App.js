@@ -11,7 +11,7 @@ const App = () => {
 
     // Fetch seance types on component mount
     useEffect(() => {
-        axios.get('http://localhost:9090/api/seance-types')
+        axios.get('http://localhost:8099/api/seance-types')
             .then(response => setSeanceTypes(response.data.map(type => ({
                 id: type.id,
                 name: type.name
@@ -22,7 +22,7 @@ const App = () => {
     // Fetch seance repertoires when a seance type is selected
     useEffect(() => {
         if (selectedSeanceType) {
-            axios.get(`http://localhost:9090/api/seance-repertoire?type=${selectedSeanceType}`)
+            axios.get(`http://localhost:8099/api/seance-repertoire?type=${selectedSeanceType}`)
                 .then(response => setSeanceRepertoires(response.data.map(repertoire => ({
                     id: repertoire.path,
                     name: repertoire.path
@@ -36,7 +36,7 @@ const App = () => {
     // Fetch photos for the dashboard
     useEffect(() => {
         if (dashboardVisible) {
-            axios.get(`http://localhost:9090/api/photos?type=${selectedSeanceType}&repertoire=${selectedSeanceRepertoire}`)
+            axios.get(`http://localhost:8099/api/photos?type=${selectedSeanceType}&repertoire=${selectedSeanceRepertoire}`)
                 .then(response => setPhotos(response.data))
                 .catch(error => console.error('Error fetching photos:', error));
         }

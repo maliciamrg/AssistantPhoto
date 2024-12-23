@@ -4,7 +4,7 @@ module.exports = function(app) {
     app.use(
         '/api', // Assuming your backend API is prefixed with /api
         createProxyMiddleware({
-            target: 'http://localhost:9090', // Spring Boot backend URL
+            target: 'http://localhost:8099', // Spring Boot backend URL
             changeOrigin: true,
         })
     );
