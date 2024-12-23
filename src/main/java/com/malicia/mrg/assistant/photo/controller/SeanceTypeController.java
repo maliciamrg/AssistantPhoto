@@ -1,5 +1,6 @@
 package com.malicia.mrg.assistant.photo.controller;
 
+import com.malicia.mrg.assistant.photo.DTO.SeanceTypeDto;
 import com.malicia.mrg.assistant.photo.parameter.SeanceTypeEnum;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,30 +21,4 @@ public class SeanceTypeController {
                 .collect(Collectors.toList());
     }
 
-    // DTO for the response
-    public static class SeanceTypeDto {
-        private String id;
-        private String name;
-
-        public SeanceTypeDto(String id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
 }

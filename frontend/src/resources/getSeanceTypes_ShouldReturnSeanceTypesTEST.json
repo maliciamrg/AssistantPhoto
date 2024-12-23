@@ -1,0 +1,22 @@
+[ {
+  "id" : "EVENTS",
+  "name" : "EVENTS"
+}, {
+  "id" : "HOLIDAYS",
+  "name" : "HOLIDAYS"
+}, {
+  "id" : "ALL_IN",
+  "name" : "ALL_IN"
+}, {
+  "id" : "ASSISTANT_WORK",
+  "name" : "ASSISTANT_WORK"
+}, {
+  "id" : "SHOOTING",
+  "name" : "SHOOTING"
+}, {
+  "id" : "REJET",
+  "name" : "REJET"
+}, {
+  "id" : "SAUVEGARDE",
+  "name" : "SAUVEGARDE"
+} ]

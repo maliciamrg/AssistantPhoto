@@ -1,0 +1,7 @@
+[ {
+  "path" : "00-CheckIn",
+  "description" : "Main check-in folder"
+}, {
+  "path" : "00-CheckIn-2",
+  "description" : "Backup check-in folder"
+} ]

@@ -24,8 +24,8 @@ const App = () => {
         if (selectedSeanceType) {
             axios.get(`http://localhost:9090/api/seance-repertoire?type=${selectedSeanceType}`)
                 .then(response => setSeanceRepertoires(response.data.map(repertoire => ({
-                    id: repertoire.id,
-                    name: repertoire.name
+                    id: repertoire.path,
+                    name: repertoire.path
                 }))))
                 .catch(error => console.error('Error fetching seance repertoires:', error));
         } else {

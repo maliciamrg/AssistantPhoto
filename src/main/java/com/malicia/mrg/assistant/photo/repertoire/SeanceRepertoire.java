@@ -11,6 +11,9 @@ public class SeanceRepertoire {
         this.description = description;
     }
 
+    public SeanceRepertoire() {
+    }
+
     // Getters and Setters
     public String getPath() {
         return path;
