@@ -59,9 +59,21 @@ public class AssistantPhotoApplication {
                 Profile(s):  {}
                 ---------------------------------------------------------------
                 Swagger:       {}://{}:{}{}swagger-ui/index.html
-                Swagger IpWan: {}://{}/swagger-ui/index.html
+                Swagger:       {}://{}:{}{}v3/api-docs
+                ---------------------------------------------------------------
+                Swagger IpWan: {}://{}{}swagger-ui/index.html
+                Swagger IpWan: {}://{}{}v3/api-docs
                 """,
-                appName, appVersion, protocol, serverPort, contextPath, protocol, serverPort, contextPath, protocol, hostAddress, serverPort, contextPath, protocol, ipOutsideDocker, env.getActiveProfiles(), protocol, hostAddress, serverPort, contextPath, protocol, ipOutsideDocker);
+                appName, appVersion,
+                protocol, serverPort, contextPath,
+                protocol, serverPort, contextPath,
+                protocol, hostAddress, serverPort, contextPath,
+                protocol, ipOutsideDocker,
+                env.getActiveProfiles(),
+                protocol, hostAddress, serverPort, contextPath,
+                protocol, hostAddress, serverPort, contextPath,
+                protocol, ipOutsideDocker, contextPath,
+                protocol, ipOutsideDocker, contextPath);
     }
 
     @Bean

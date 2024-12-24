@@ -1,7 +1,20 @@
 application:
   version: "@project.version@"
+  ipWan: '192.212.5.200:8099'
 server:
-  port: 9090
+  port: 8099
+logging:
+  level:
+    org:
+      springdoc: DEBUG
+springdoc:
+  show-actuator: true
+  enable-spring-security: false
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
 my:
   app:
     name: AssistantPhoto
@@ -120,7 +133,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,metrics,openapi,swagger-ui
   info:
     build:
       enabled: true
