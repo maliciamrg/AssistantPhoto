@@ -29,7 +29,7 @@ pipeline {
         stage("install Docker Images into 200") {
             steps {
                 script {
-                    sh "docker --context remote compose up -d"
+                    sh "docker --context remote compose up -d --force-recreate"
                 }
             }
         }
