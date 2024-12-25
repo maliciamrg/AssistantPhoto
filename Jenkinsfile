@@ -21,6 +21,7 @@ pipeline {
                         sh "docker login -u $user -p $password"
                         sh "docker build -t maliciamrg/${pom.getArtifactId().toLowerCase()}:${pom.getVersion()} . "
                         sh "docker push maliciamrg/${pom.getArtifactId().toLowerCase()}:${pom.getVersion()}"
+                        sleep 10 // Wait for 10 seconds
                     }
                 }
             }
@@ -29,6 +30,7 @@ pipeline {
         stage("install Docker Images into 200") {
             steps {
                 script {
+                    sh "docker --context remote compose pull"
                     sh "docker --context remote compose up -d --force-recreate"
                 }
             }
