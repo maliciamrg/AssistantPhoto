@@ -51,29 +51,36 @@ public class AssistantPhotoApplication {
         logger.info("""
                 ---------------------------------------------------------------
                 Application '{}' ({})' is running!
+                ---------------------------------------------------------------
+                Profile(s):  {}
+                ---------------------------------------------------------------
                 Access URLs:
                   Local:        {}://localhost:{}{}
                   LocalIndex:   {}://localhost:{}{}index.html
-                  External:     {}://{}:{}{}
-                  IpWan:        {}://{} (manual)
-                Profile(s):  {}
+                  Swagger:      {}://localhost:{}{}swagger-ui/index.html
                 ---------------------------------------------------------------
-                Swagger:       {}://{}:{}{}swagger-ui/index.html
-                Swagger:       {}://{}:{}{}v3/api-docs
+                External:
+                  Local:        {}://{}:{}{}
+                  LocalIndex:   {}://{}:{}{}index.html
+                  Swagger:      {}://{}:{}{}swagger-ui/index.html
                 ---------------------------------------------------------------
-                Swagger IpWan: {}://{}{}swagger-ui/index.html
-                Swagger IpWan: {}://{}{}v3/api-docs
+                IpWan:
+                  Local:        {}://{}:{}{}
+                  LocalIndex:   {}://{}:{}{}index.html
+                  Swagger:      {}://{}:{}{}swagger-ui/index.html
                 """,
                 appName, appVersion,
-                protocol, serverPort, contextPath,
-                protocol, serverPort, contextPath,
-                protocol, hostAddress, serverPort, contextPath,
-                protocol, ipOutsideDocker,
                 env.getActiveProfiles(),
+                protocol, serverPort, contextPath,
+                protocol, serverPort, contextPath,
+                protocol, serverPort, contextPath,
                 protocol, hostAddress, serverPort, contextPath,
                 protocol, hostAddress, serverPort, contextPath,
-                protocol, ipOutsideDocker, contextPath,
-                protocol, ipOutsideDocker, contextPath);
+                protocol, hostAddress, serverPort, contextPath,
+                protocol, ipOutsideDocker, serverPort, contextPath,
+                protocol, ipOutsideDocker, serverPort, contextPath,
+                protocol, ipOutsideDocker, serverPort, contextPath
+                );
     }
 
     @Bean

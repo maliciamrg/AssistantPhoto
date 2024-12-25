@@ -1,6 +1,6 @@
 application:
   version: "@project.version@"
-  ipWan: '192.212.5.200:8099'
+  ipWan: '192.212.5.200'
 server:
   port: 8099
 logging:
@@ -9,12 +9,7 @@ logging:
       springdoc: DEBUG
 springdoc:
   show-actuator: true
-  enable-spring-security: false
-  swagger-ui:
-    enabled: true
-    path: /swagger-ui.html
-  api-docs:
-    path: /api-docs
+
 my:
   app:
     name: AssistantPhoto

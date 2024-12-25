@@ -4,7 +4,7 @@ services:
     assistantPhoto:
         image: maliciamrg/assistantphoto:0.0.1-SNAPSHOT
         ports:
-            - 8099:8080
+            - 8099:8099
         container_name: assistantPhoto
         volumes:
             - '/Photo/lrcat:/Lrcat'
