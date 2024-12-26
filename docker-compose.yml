@@ -1,11 +1,13 @@
 version: '3.8'
 name: assistantphoto
 services:
-    assistantPhoto:
-        image: maliciamrg/assistantphoto:0.0.1-SNAPSHOT
+    assistantphoto:
+        build:
+            context: .
+            dockerfile: Dockerfile
         ports:
             - 8099:8099
-        container_name: assistantPhoto
+        container_name: assistantphoto
         volumes:
             - '/Photo/lrcat:/Lrcat'
             - '/Photo/50-Phototheque:/Phototheque'
