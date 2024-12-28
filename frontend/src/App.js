@@ -8,10 +8,11 @@ const App = () => {
     const [selectedSeanceRepertoire, setSelectedSeanceRepertoire] = useState('');
     const [dashboardVisible, setDashboardVisible] = useState(false);
     const [photos, setPhotos] = useState([]);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     // Fetch seance types on component mount
     useEffect(() => {
-        axios.get('http://localhost:8099/api/seance-types')
+        axios.get(`${apiUrl}/seance-types`)
             .then(response => setSeanceTypes(response.data.map(type => ({
                 id: type.id,
                 name: type.name
@@ -22,7 +23,7 @@ const App = () => {
     // Fetch seance repertoires when a seance type is selected
     useEffect(() => {
         if (selectedSeanceType) {
-            axios.get(`http://localhost:8099/api/seance-repertoire?type=${selectedSeanceType}`)
+            axios.get(`${apiUrl}/seance-repertoire?type=${selectedSeanceType}`)
                 .then(response => setSeanceRepertoires(response.data.map(repertoire => ({
                     id: repertoire.path,
                     name: repertoire.path
@@ -36,7 +37,7 @@ const App = () => {
     // Fetch photos for the dashboard
     useEffect(() => {
         if (dashboardVisible) {
-            axios.get(`http://localhost:8099/api/photos?type=${selectedSeanceType}&repertoire=${selectedSeanceRepertoire}`)
+            axios.get(`${apiUrl}/photos?type=${selectedSeanceType}&repertoire=${selectedSeanceRepertoire}`)
                 .then(response => setPhotos(response.data))
                 .catch(error => console.error('Error fetching photos:', error));
         }

@@ -56,28 +56,22 @@ public class AssistantPhotoApplication {
                 ---------------------------------------------------------------
                 Access URLs:
                   Local:        {}://localhost:{}{}
-                  LocalIndex:   {}://localhost:{}{}index.html
                   Swagger:      {}://localhost:{}{}swagger-ui/index.html
                 ---------------------------------------------------------------
                 External:
                   Local:        {}://{}:{}{}
-                  LocalIndex:   {}://{}:{}{}index.html
                   Swagger:      {}://{}:{}{}swagger-ui/index.html
                 ---------------------------------------------------------------
                 IpWan:
                   Local:        {}://{}:{}{}
-                  LocalIndex:   {}://{}:{}{}index.html
                   Swagger:      {}://{}:{}{}swagger-ui/index.html
                 """,
                 appName, appVersion,
                 env.getActiveProfiles(),
                 protocol, serverPort, contextPath,
                 protocol, serverPort, contextPath,
-                protocol, serverPort, contextPath,
                 protocol, hostAddress, serverPort, contextPath,
                 protocol, hostAddress, serverPort, contextPath,
-                protocol, hostAddress, serverPort, contextPath,
-                protocol, ipOutsideDocker, serverPort, contextPath,
                 protocol, ipOutsideDocker, serverPort, contextPath,
                 protocol, ipOutsideDocker, serverPort, contextPath
                 );

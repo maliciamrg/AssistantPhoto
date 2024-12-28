@@ -22,7 +22,7 @@ public class PhotoController {
         this.rootRep = rootRep;
     }
 
-    @GetMapping("/photos")
+    @GetMapping("/api/photos")
     public ResponseEntity<List<Photo>> index(@RequestParam("seanceType") SeanceTypeEnum seanceType) {
         try {
             List<SeanceRepertoire> assistantRepertoire = rootRep.getAllSeanceRepertoire(seanceType);

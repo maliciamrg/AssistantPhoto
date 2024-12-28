@@ -1,17 +1,11 @@
 version: '3.8'
-name: assistantphoto
 services:
-    assistantphoto:
+    assistant_photo_back:
         build:
             context: .
             dockerfile: Dockerfile
         ports:
             - 8099:8099
-        container_name: assistantphoto
         volumes:
             - '/Photo/lrcat:/Lrcat'
             - '/Photo/50-Phototheque:/Phototheque'
-    whoami:
-        image: traefik/whoami
-        ports:
-            - 8787:80
