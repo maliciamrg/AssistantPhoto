@@ -36,16 +36,18 @@ pipeline {
                 stage('Backend Docker Build') {
                     steps {
                         dir('backend') {
-                            echo "Building Docker image for backend..."
-                            def pom = readMavenPom file: 'pom.xml'
-                            withCredentials([usernamePassword(credentialsId: 'hub.docker.com', passwordVariable: 'HUB_REPO_PASS', usernameVariable: 'HUB_REPO_USER')]) {
-                                def user = env.HUB_REPO_USER
-                                def password = env.HUB_REPO_PASS
-                                sh "docker version"
-                                sh "docker login -u $user -p $password"
-                                sh "docker build -t maliciamrg/${pom.getArtifactId().toLowerCase()}:${pom.getVersion()} . "
-                                sh "docker push maliciamrg/${pom.getArtifactId().toLowerCase()}:${pom.getVersion()}"
-                                sleep 10 // Wait for 10 seconds
+                            script {
+                                echo "Building Docker image for backend..."
+                                def pom = readMavenPom file: 'pom.xml'
+                                withCredentials([usernamePassword(credentialsId: 'hub.docker.com', passwordVariable: 'HUB_REPO_PASS', usernameVariable: 'HUB_REPO_USER')]) {
+                                    def user = env.HUB_REPO_USER
+                                    def password = env.HUB_REPO_PASS
+                                    sh "docker version"
+                                    sh "docker login -u $user -p $password"
+                                    sh "docker build -t maliciamrg/${pom.getArtifactId().toLowerCase()}:${pom.getVersion()} . "
+                                    sh "docker push maliciamrg/${pom.getArtifactId().toLowerCase()}:${pom.getVersion()}"
+                                    sleep 10 // Wait for 10 seconds
+                                }
                             }
                         }
                     }
@@ -53,17 +55,19 @@ pipeline {
                 stage('Frontend Docker Build') {
                     steps {
                         dir('frontend') {
-                            echo "Building Docker image for frontend..."
-                            sh 'docker build -t ${DOCKER_USER}/${FRONTEND_IMAGE} .'
-                            def packageJson = readJSON file: 'package.json'
-                            withCredentials([usernamePassword(credentialsId: 'hub.docker.com', passwordVariable: 'HUB_REPO_PASS', usernameVariable: 'HUB_REPO_USER')]) {
-                                def user = env.HUB_REPO_USER
-                                def password = env.HUB_REPO_PASS
-                                sh "docker version"
-                                sh "docker login -u $user -p $password"
-                                sh "docker build -t maliciamrg/${packageJson.name.toLowerCase()}:${packageJson.version} . "
-                                sh "docker push maliciamrg/${packageJson.name.toLowerCase()}:${packageJson.version}"
-                                sleep 10 // Wait for 10 seconds
+                            script {
+                                echo "Building Docker image for frontend..."
+                                sh 'docker build -t ${DOCKER_USER}/${FRONTEND_IMAGE} .'
+                                def packageJson = readJSON file: 'package.json'
+                                withCredentials([usernamePassword(credentialsId: 'hub.docker.com', passwordVariable: 'HUB_REPO_PASS', usernameVariable: 'HUB_REPO_USER')]) {
+                                    def user = env.HUB_REPO_USER
+                                    def password = env.HUB_REPO_PASS
+                                    sh "docker version"
+                                    sh "docker login -u $user -p $password"
+                                    sh "docker build -t maliciamrg/${packageJson.name.toLowerCase()}:${packageJson.version} . "
+                                    sh "docker push maliciamrg/${packageJson.name.toLowerCase()}:${packageJson.version}"
+                                    sleep 10 // Wait for 10 seconds
+                                }
                             }
                         }
                     }
