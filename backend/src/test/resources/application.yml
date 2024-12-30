@@ -7,7 +7,7 @@ my:
 assistant:
   dryRun: true
   name: assistant
-  rootPath: c:\
+  rootPath: ./src/test/resources/
   fileExtensionsToWorkWith:
     - jpg
     - tif
