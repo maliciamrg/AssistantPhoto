@@ -141,7 +141,7 @@ class RootRepertoireTest {
         //given
         mockConfig.setRootPath("\\\\192.212.5.111\\80-Photo\\");
         RootRepertoire rootRep = new RootRepertoire(mockConfig);
-        String jsonDest = mockConfig.getRootPath() + "/getAllPhotoFromAllInRealToJsonTEST.json";
+        String jsonDest = mockConfig.getRootPath() + "/getAllPhotoFromAllInRealToJsonTEST-out.json";
 
         //when
         List<SeanceRepertoire> assistantRepertoire = rootRep.getAllSeanceRepertoire(SeanceTypeEnum.ALL_IN);
@@ -169,10 +169,11 @@ class RootRepertoireTest {
         RootRepertoire rootRep = new RootRepertoire(mockConfig);
 
         //when
-        SeanceRepertoire assistantRepertoire = rootRep.getAllSeanceRepertoire(SeanceTypeEnum.EVENTS).get(0);
-        List<Photo> allPhotoFromSeanceRepertoire = rootRep.getAllPhotoFromSeanceRepertoire(assistantRepertoire);
+        List<SeanceRepertoire> assistantRepertoires = rootRep.getAllSeanceRepertoire(SeanceTypeEnum.EVENTS);
+        List<Photo> allPhotoFromSeanceRepertoire = rootRep.getAllPhotoFromSeanceRepertoire(assistantRepertoires.get(0));
 
         //then
+        System.out.println(assistantRepertoires);
         System.out.println(allPhotoFromSeanceRepertoire);
         for (Photo photo : allPhotoFromSeanceRepertoire) {
             System.out.println(photo);
@@ -212,7 +213,7 @@ class RootRepertoireTest {
         assertEquals(6161, repGroupOfPhotoFrom.get(repGroupOfPhotoFrom.size()-1).size());
 
         //given
-        String jsonDest = mockConfig.getRootPath() + "/getGroupOfPhotoTEST.json";
+        String jsonDest = mockConfig.getRootPath() + "/getGroupOfPhotoTEST-out.json";
         WorkWithFile.putIntoJsonFile(repGroupOfPhotoFrom.get(2), jsonDest);
 
     }
@@ -236,9 +237,10 @@ class RootRepertoireTest {
 
         //when
         List<SeanceRepertoire> allSeanceRepertoire = rootRep.getAllSeanceRepertoire(SeanceTypeEnum.ASSISTANT_WORK);
-        int ret = rootRep.moveGroupToAssistantWork(mockConfig.getRootPath() + allSeanceRepertoire.get(0).getPath(), groupOfPhotoFrom ,mockConfig.getDryRun());
+        int ret = rootRep.moveGroupToAssistantWork(mockConfig.getRootPath() + allSeanceRepertoire.get(0).getPath(), groupOfPhotoFrom ,true);
 
         //then
+        System.out.println(allSeanceRepertoire);
         assertEquals(26, groupOfPhotoFrom.size());
         assertEquals(26, ret);
     }
