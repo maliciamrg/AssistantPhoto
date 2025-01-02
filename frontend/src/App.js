@@ -18,7 +18,7 @@ const App = () => {
                 name: type.name
             }))))
             .catch(error => console.error('Error fetching seance types:', error));
-    }, []);
+    }, [apiUrl]);
 
     // Fetch seance repertoires when a seance type is selected
     useEffect(() => {
@@ -32,7 +32,7 @@ const App = () => {
         } else {
             setSeanceRepertoires([]);
         }
-    }, [selectedSeanceType]);
+    }, [apiUrl,selectedSeanceType]);
 
     // Fetch photos for the dashboard
     useEffect(() => {
@@ -41,7 +41,7 @@ const App = () => {
                 .then(response => setPhotos(response.data))
                 .catch(error => console.error('Error fetching photos:', error));
         }
-    }, [dashboardVisible, selectedSeanceType, selectedSeanceRepertoire]);
+    }, [apiUrl,dashboardVisible, selectedSeanceType, selectedSeanceRepertoire]);
 
     const handleStart = () => {
         if (selectedSeanceType && selectedSeanceRepertoire) {
