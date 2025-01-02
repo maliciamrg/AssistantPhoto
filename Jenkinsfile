@@ -25,6 +25,8 @@ pipeline {
             steps {
                 dir('frontend') {
                     echo "Installing frontend dependencies and building..."
+                    sh 'node -v'
+                    sh 'npm -v'
                     sh 'npm install'
                     sh 'npm run build'
                 }
