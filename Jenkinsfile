@@ -59,7 +59,6 @@ pipeline {
                         dir('frontend') {
                             script {
                                 echo "Building Docker image for frontend..."
-                                sh 'docker build -t ${DOCKER_USER}/${FRONTEND_IMAGE} .'
                                 def packageJson = readJSON file: 'package.json'
                                 withCredentials([usernamePassword(credentialsId: 'hub.docker.com', passwordVariable: 'HUB_REPO_PASS', usernameVariable: 'HUB_REPO_USER')]) {
                                     def user = env.HUB_REPO_USER
