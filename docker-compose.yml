@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   backend:
+    container_name: assistant_photo_backend_service
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -10,19 +11,21 @@ services:
       - db
 
   frontend:
+    container_name: assistant_photo_frontend_ui
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
       - "3900:3000"
     environment:
-      - REACT_APP_API_URL=http://backend-service:8099/api
+      - REACT_APP_API_URL=http://assistant_photo_backend_service:8099/api
     depends_on:
       - backend
     networks:
       - assistant-photo
 
   db:
+    container_name: assistant_photo_pg_db
     image: postgres:15-alpine
     environment:
       POSTGRES_USER: user
